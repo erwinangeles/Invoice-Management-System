@@ -44,7 +44,8 @@ class PaymentController extends Controller
     {
         //
         $payment = New Payment;
-        $payment->client_id = $request->client_id;
+       $fetch_invoice = Invoice::where('id', '=', $request->invoice_id)->first();
+        $payment->client_id = $fetch_invoice->client_id;
         $payment->invoice_id = $request->invoice_id;
         $payment->payment_amount = $request->payment_amount;
         $payment->payment_type = $request->payment_type;

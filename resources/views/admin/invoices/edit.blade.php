@@ -1,9 +1,7 @@
 @extends('layouts.app')
 
 @section('content')
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" />
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
         <div class="container">
@@ -12,11 +10,13 @@
 
                 <div class="col-md-12">
                     <div class="card">
-                        <form method="POST" action="{{route('admin.invoices.update', $invoice->id)}}">
-                            {{method_field('PUT')}}
-                            @csrf
                         <div class="card-header">Edit Invoice</div>
                         <div class="card-body">
+                            <form method="POST" action="{{route('admin.invoices.update', $invoice->id)}}">
+                                {{method_field('PUT')}}
+                                @csrf
+                            <div class="row">
+
                             <div class="col-md-4">
                                 Client:
                                 <input type="text" name="client_id" value="{{$invoice->client->id}}" class="form-control" hidden/>
@@ -52,6 +52,7 @@
                         </div>
                             <input type="submit" value="Save" class="btn btn-primary float-right">
                         </form>
+                    </div>
                     </div>
 
                 </div>

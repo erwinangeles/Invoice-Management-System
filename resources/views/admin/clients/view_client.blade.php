@@ -60,7 +60,7 @@
                             @endforelse
                             </tbody>
                         </table>
-                        <a href="{{route('admin.invoices.create')}}" class="btn btn-sm btn-primary">Create New Invoice</a>
+                        <a href="{{route('admin.invoices.create')}}?client_id={{ $client->id }}" target="_blank" class="btn btn-sm btn-primary">Create New Invoice</a>
                     </div>
                 </div>
             </div>

@@ -12,17 +12,10 @@
 
                         <div class="card-body justify-content-center">
                             @csrf
-                            Client:
-                            <select class="form-control" id="client_id" name="client_id">
-                                @forelse(App\Client::all() as $client)
-                                    <option value="{{$client->id}}">{{$client->first_name}} {{$client->last_name}}</option>
-                                @empty
-                                @endforelse
-                            </select>
                             Invoice:
                             <select class="form-control" id="invoice_id" name="invoice_id">
                                 @forelse(App\Invoice::all() as $invoice)
-                                    <option value="{{$invoice->id}}">{{$invoice->invoice_number}} - {{$invoice->client->first_name}} {{$invoice->client->last_name}} - ${{number_format($invoice->balance, 2)}} | ${{number_format($invoice->amount, 2)}} </option>
+                                    <option value="{{$invoice->id}}"> {{$invoice->client->business_name}}- {{$invoice->invoice_number}} - {{$invoice->client->first_name}} {{$invoice->client->last_name}} - ${{number_format($invoice->balance, 2)}} | ${{number_format($invoice->amount, 2)}} </option>
                                 @empty
                                 @endforelse
                             </select>
