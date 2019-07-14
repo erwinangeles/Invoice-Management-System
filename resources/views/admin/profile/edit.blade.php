@@ -12,7 +12,7 @@
                         <div class="card-header">Profile Information</div>
 
                         <div class="card-body">
-<strong>To preview what the invoice would look like, <a href="/admin/invoice/preview" target="_blank">click here</a> </strong>
+<strong>To preview what the invoice would look like, <a href="{{url('/admin/invoice/preview')}}" target="_blank">click here</a> </strong>
                             <hr>
                             Business Name:
                             <input type="text" value="{{$profile->business_name}}" name="business_name" class="form-control"/>

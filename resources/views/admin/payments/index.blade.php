@@ -28,7 +28,7 @@
 
                                 <tr>
                                     <td>{{$payment->invoice->client->first_name}} {{$payment->invoice->client->last_name}}</td>
-                                    <td>{{$payment->trasaction_reference}}</td>
+                                    <td>{{$payment->transaction_reference}}</td>
                                     <td><em>Manual Entry</em></td>
                                     <td>{{$payment->payment_type}}</td>
                                     <td>${{number_format($payment->payment_amount,2)}}</td>

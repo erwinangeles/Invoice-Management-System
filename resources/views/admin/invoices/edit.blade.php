@@ -137,7 +137,7 @@
                         <div class="card-header"> <button class="btn btn-info" onclick="var ifr=document.getElementsByName('invoice_preview')[0]; ifr.src=ifr.src;">Refresh</button> <a href="{{ route('admin.invoices.generate-pdf',$invoice->id, ['download'=>'pdf']) }}" target="_blank" class="btn btn-md btn-info">Download PDF</a>
                         </div>
                         <div class="card-body container-fluid">
-                        <iframe name="invoice_preview" src="http://invoice.test/admin/invoices/{{$invoice->id}}" width="100%" height="800">
+                        <iframe name="invoice_preview" src="{{url('/admin/invoices/'. $invoice->id)}}" width="100%" height="800">
 
                         </iframe>
                         </div>
