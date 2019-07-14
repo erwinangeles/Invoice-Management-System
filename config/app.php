@@ -230,7 +230,7 @@ return [
         'PDF' => Barryvdh\Snappy\Facades\SnappyPdf::class,
         'SnappyImage' => Barryvdh\Snappy\Facades\SnappyImage::class,
         'Image' => Intervention\Image\Facades\Image::class,
-
+        'binary'  => 'wkhtmltopdf'
     ],
 
 ];
