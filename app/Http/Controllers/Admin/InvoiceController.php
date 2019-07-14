@@ -126,6 +126,13 @@ class InvoiceController extends Controller
         return $pdf->download('invoice.pdf');
     }
 
+    public function mobilePreview($id)
+    {
+        $profile = Profile::findorFail(1);
+        $invoice = Invoice::findorfail($id);
+        return view('admin.invoices.mobile_invoice', compact('profile', 'invoice'));
+    }
+
 
 }
 

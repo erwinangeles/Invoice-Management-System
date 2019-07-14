@@ -37,3 +37,4 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/admin/invoice/preview', 'Admin\ProfileController@previewInvoice');
+Route::get('/admin/invoice/mobile/preview/{id}', 'Admin\InvoiceController@mobilePreview');

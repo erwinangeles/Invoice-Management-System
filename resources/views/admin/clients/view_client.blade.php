@@ -48,8 +48,8 @@
                                     <td>${{number_format($invoice->balance, 2)}}</td>
                                     <td>{{$invoice->due_date}}</td>
                                     <td>{{$invoice->status}}</td>
-                                    <td><a href="{{ route('admin.invoices.edit', $invoice->id) }}" target="_blank" class="btn btn-sm btn-warning">View Invoice</a>
-                                        <a href="{{ route('admin.invoices.generate-pdf',$invoice->id, ['download'=>'pdf']) }}" target="_blank" class="btn btn-sm btn-info">Download</a>
+                                    <td><a href="{{ route('admin.invoices.show', $invoice->id) }}" target="_blank" class="btn btn-sm btn-warning">View Invoice</a>
+                                        <a href="{{ route('admin.invoices.edit',$invoice->id) }}" target="_blank" class="btn btn-sm btn-info">Download</a>
                                     </td>
                                 </tr>
 

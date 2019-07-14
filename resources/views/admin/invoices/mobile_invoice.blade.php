@@ -2,9 +2,12 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Invoice</title>
+    <title>PREVIEW INVOICE [EXAMPLE]</title>
 
     <style>
+        body{
+            overflow-x:hidden;
+        }
         .invoice-box {
             max-width: 800px;
             margin: auto;
@@ -91,150 +94,191 @@
         }
     </style>
 </head>
+<style>
+    #background{
+        position:absolute;
+        z-index:0;
+        background:white;
+        display:block;
+        min-height:50%;
+        min-width:100%;
+        color:yellow;
+    }
 
+    #content{
+        position:relative;
+        z-index:1;
+    }
+
+    #bg-text {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        text-align: center;
+        color: lightgrey;
+        font-size: 120px;
+        transform: rotate(300deg);
+        -webkit-transform: rotate(300deg);
+    }
+</style>
 <body>
-<div class="invoice-box">
-    <table cellpadding="0" cellspacing="0">
-        <tr class="top">
-            <td colspan="5">
-                <table>
-                    <tr>
-                        <td class="title">
-                                <img src="{{url('/images')}}/{{ $profile->business_logo }}" style="width:100%; max-width:300px;">
-                        </td>
-
-                        <td style="text-align: right">
-                            Invoice #: {{$invoice->invoice_number}}<br>
-                            <?php if ($invoice->invoice_date ==! null) echo "Created: ". date("F d, Y", strtotime($invoice->invoice_date)) . "<br>";?>
-                            <?php if ($invoice->due_date ==! null) echo "Due: ". date("F d, Y", strtotime($invoice->due_date)) . "<br>";?>
-                            Balance Due: ${{number_format($invoice->balance, 2)}}<br>
-                            <?php if ($invoice->deposit_amount > 0 && $invoice->payments->sum('payment_amount') < $invoice->deposit_amount)echo "Partial Due: $". number_format($invoice->deposit_amount, 2);?>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-
-        <tr class="information">
-            <td colspan="5">
-                <table>
-                    <tr>
-                        <td>
-                            {{$profile->business_name}}<br>
-                            {{$profile->business_address_street}} {{$profile->business_address_street2}},<br>
-                            {{$profile->business_address_city}}, {{$profile->business_address_state}} {{$profile->business_address_zipcode}}<br>
-                            {{$profile->business_email}}<br>
-                            {{$profile->business_phone_number}}<br>
-                            {{$profile->business_website}}
-                        </td>
-
-                        <td style="text-align: right">
-                            {{$invoice->client->business_name}}<br>
-                            {{$invoice->client->first_name}} {{$invoice->client->last_name}}<br>
-                            {{$invoice->client->email_address}}<br>
-                            {{$invoice->client->address_street}} {{$invoice->client->address_street2}}<br>
-                            {{$invoice->client->address_city}}, {{$invoice->client->address_state}}, {{$invoice->client->address_zipcode}}<br>
-                            {{$invoice->client->phone_number}}
-                        </td>
-
-                    </tr>
-                </table>
-                <strong><small>{{$profile->header_notes}}</small></strong>
-            </td>
-        </tr>
-        <tr class="heading">
-            <td>
-                Item
-            </td>
-            <td>
-                Description
-            </td>
-            <td>
-                Unit Price
-            </td>
-            <td>
-                Quantity
-            </td>
-            <td>
-                Line Total
-            </td>
-        </tr>
-
-        @foreach($invoice->products as $product)
-            @if($loop->last)
-                <tr class="item last">
-                    <td>
-                        <strong>{{$product->item_name}}</strong>
-                    </td>
-                    <td>
-                        {{$product->item_description}}
-                    </td>
-                    <td>
-                        ${{number_format($product->unit_cost, 2)}}
-                    </td>
-                    <td>
-                        x{{$product->quantity}}
-                    </td>
-
-                    <td>
-                        ${{number_format($product->unit_cost * $product->quantity,2) }}
-                    </td>
-                </tr>
-            @else
-                <tr class="item">
-                    <td>
-                        <strong>{{$product->item_name}}</strong>
-                    </td>
-                    <td>
-                        {{$product->item_description}}
-                    </td>
-                    <td>
-                        ${{number_format($product->unit_cost,2)}}
-                    </td>
-                    <td>
-                        x{{$product->quantity}}
-                    </td>
-
-                    <td>
-                        ${{number_format($product->unit_cost * $product->quantity, 2)}}
-                    </td>
-                </tr>
-            @endif
-        @endforeach
-        <tr class="total" style="text-align: left">
-            <td></td>
-            <td></td>
-            <td></td>
-            <td>Subtotal<br>
-                <?php if ($invoice->client->tax_rate > 0 ) echo "Sales Tax (". number_format($invoice->client->tax_rate, 2) . "%)<br>"; ?>
-                <?php if ($invoice->discount > 0 && $invoice->discount_type  == 'Amount') echo 'Discount<br>'; ?>
-                <?php if ($invoice->discount > 0 && $invoice->discount_type  == 'Percent') echo "Discount ($invoice->discount%)<br>"; ?>
-                Paid to Date<br>
-                <strong>Balance</strong><br>
-                <?php if ($invoice->deposit_amount > 0 && $invoice->payments->sum('payment_amount') < $invoice->deposit_amount) echo"<strong>Partial Due</strong>";?>
-            </td>
-            <td style="text-align: right">
-                ${{number_format($invoice->products->sum('line_total'),2)}}<br>
-                <?php if ($invoice->client->tax_rate >0) echo "$" . number_format($invoice->products->sum('line_total')  * ((100+$invoice->client->tax_rate) / 100)-$invoice->products->sum('line_total'), 2) . "<br>";?>
-                <?php if ($invoice->discount > 0 && $invoice->discount_type  == 'Amount') echo "($" . number_format($invoice->discount, 2).")<br>"; ?>
-                <?php if ($invoice->discount > 0 && $invoice->discount_type  == 'Percent') echo "($".number_format($invoice->products->sum('line_total') * (($invoice->discount) / 100), 2).")<br>"; ?>
-                (${{number_format($invoice->payments->sum('payment_amount'), 2)}})<br>
-                ${{number_format($invoice->balance, 2)}}<br>
-                <?php if ($invoice->deposit_amount > 0 && $invoice->payments->sum('payment_amount') < $invoice->deposit_amount) echo "$". number_format($invoice->deposit_amount, 2);?>
-            </td>
-        </tr>
-    </table>
-    <hr>
-    <style>
-        .first, .second { width:300px; font-size: small }
-    </style>
-    <table style="width: 100%;">
-        <tr>
-            <td class="first">{{$profile->footer_notes_left}}</td>
-            <td class="second">{{$profile->footer_notes_right}}</td>
-        </tr>
-    </table>
-
+<div id="background">
+    <p id="bg-text">PREVIEW ONLY</p>
 </div>
+
+
+
+<div id="content">
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="5">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                <img src="{{url('/images')}}/{{ $profile->business_logo }}" style="width:100%; max-width:300px;">
+                            </td>
+
+                            <td style="text-align: right">
+                                Invoice #: {{$invoice->invoice_number}}<br>
+                                <?php if ($invoice->invoice_date ==! null) echo "Created: ". date("F d, Y", strtotime($invoice->invoice_date)) . "<br>";?>
+                                <?php if ($invoice->due_date ==! null) echo "Due: ". date("F d, Y", strtotime($invoice->due_date)) . "<br>";?>
+                                Balance Due: ${{number_format($invoice->balance, 2)}}<br>
+                                <?php if ($invoice->deposit_amount > 0 && $invoice->payments->sum('payment_amount') < $invoice->deposit_amount)echo "Partial Due: $". number_format($invoice->deposit_amount, 2);?>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="information">
+                <td colspan="5">
+                    <table>
+                        <tr>
+                            <td>
+                                {{$profile->business_name}}<br>
+                                {{$profile->business_address_street}} {{$profile->business_address_street2}},<br>
+                                {{$profile->business_address_city}}, {{$profile->business_address_state}} {{$profile->business_address_zipcode}}<br>
+                                {{$profile->business_email}}<br>
+                                {{$profile->business_phone_number}}<br>
+                                {{$profile->business_website}}
+                            </td>
+
+                            <td style="text-align: right">
+                                {{$invoice->client->business_name}}<br>
+                                {{$invoice->client->first_name}} {{$invoice->client->last_name}}<br>
+                                {{$invoice->client->email_address}}<br>
+                                {{$invoice->client->address_street}} {{$invoice->client->address_street2}}<br>
+                                {{$invoice->client->address_city}}, {{$invoice->client->address_state}}, {{$invoice->client->address_zipcode}}<br>
+                                {{$invoice->client->phone_number}}
+                            </td>
+
+                        </tr>
+                    </table>
+                    <strong><small>{{$profile->header_notes}}</small></strong>
+                </td>
+            </tr>
+            <tr class="heading">
+                <td>
+                    Item
+                </td>
+                <td>
+                    Description
+                </td>
+                <td>
+                    Unit Price
+                </td>
+                <td>
+                    Quantity
+                </td>
+                <td>
+                    Line Total
+                </td>
+            </tr>
+
+            @foreach($invoice->products as $product)
+                @if($loop->last)
+                    <tr class="item last">
+                        <td>
+                            <strong>{{$product->item_name}}</strong>
+                        </td>
+                        <td>
+                            {{$product->item_description}}
+                        </td>
+                        <td>
+                            ${{number_format($product->unit_cost, 2)}}
+                        </td>
+                        <td>
+                            x{{$product->quantity}}
+                        </td>
+
+                        <td>
+                            ${{number_format($product->unit_cost * $product->quantity,2) }}
+                        </td>
+                    </tr>
+                @else
+                    <tr class="item">
+                        <td>
+                            <strong>{{$product->item_name}}</strong>
+                        </td>
+                        <td>
+                            {{$product->item_description}}
+                        </td>
+                        <td>
+                            ${{number_format($product->unit_cost,2)}}
+                        </td>
+                        <td>
+                            x{{$product->quantity}}
+                        </td>
+
+                        <td>
+                            ${{number_format($product->unit_cost * $product->quantity, 2)}}
+                        </td>
+                    </tr>
+                @endif
+            @endforeach
+            <tr class="total" style="text-align: left">
+                <td></td>
+                <td></td>
+                <td></td>
+                <td>Subtotal<br>
+                    <?php if ($invoice->client->tax_rate > 0 ) echo "Sales Tax (". number_format($invoice->client->tax_rate, 2) . "%)<br>"; ?>
+                    <?php if ($invoice->discount > 0 && $invoice->discount_type  == 'Amount') echo 'Discount<br>'; ?>
+                    <?php if ($invoice->discount > 0 && $invoice->discount_type  == 'Percent') echo "Discount ($invoice->discount%)<br>"; ?>
+                    Paid to Date<br>
+                    <strong>Balance</strong><br>
+                    <?php if ($invoice->deposit_amount > 0 && $invoice->payments->sum('payment_amount') < $invoice->deposit_amount) echo"<strong>Partial Due</strong>";?>
+                </td>
+                <td style="text-align: right">
+                    ${{number_format($invoice->products->sum('line_total'),2)}}<br>
+                    <?php if ($invoice->client->tax_rate >0) echo "$" . number_format($invoice->products->sum('line_total')  * ((100+$invoice->client->tax_rate) / 100)-$invoice->products->sum('line_total'), 2) . "<br>";?>
+                    <?php if ($invoice->discount > 0 && $invoice->discount_type  == 'Amount') echo "($" . number_format($invoice->discount, 2).")<br>"; ?>
+                    <?php if ($invoice->discount > 0 && $invoice->discount_type  == 'Percent') echo "($".number_format($invoice->products->sum('line_total') * (($invoice->discount) / 100), 2).")<br>"; ?>
+                    (${{number_format($invoice->payments->sum('payment_amount'), 2)}})<br>
+                    ${{number_format($invoice->balance, 2)}}<br>
+                    <?php if ($invoice->deposit_amount > 0 && $invoice->payments->sum('payment_amount') < $invoice->deposit_amount) echo "$". number_format($invoice->deposit_amount, 2);?>
+                </td>
+            </tr>
+        </table>
+        <hr>
+        <style>
+            .first, .second { width:300px; font-size: small }
+        </style>
+        <table style="width: 100%;">
+            <tr>
+                <td class="first">{{$profile->footer_notes_left}}</td>
+                <td class="second">{{$profile->footer_notes_right}}</td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
 </body>
+
+
 </html>
+
+
+

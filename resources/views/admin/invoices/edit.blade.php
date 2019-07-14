@@ -125,19 +125,12 @@
                     {{method_field('PUT')}}
                     @csrf
                     </form>
-                <script>
-                    $('#invoice_preview').load(function() {
-                        var css = '<style type="text/css">@media only screen and (max-width: 600px) {.invoice-box table tr.top table td {width: 100%;display: block;text-align: center;}.invoice-box table tr.information table td {width: 100%;display: block;text-align: center;}}</style>';
-                        $('#invoice_preview').contents().find("head").append(css);
-                    });
-
-                </script>
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header"> <button class="btn btn-info" onclick="var ifr=document.getElementsByName('invoice_preview')[0]; ifr.src=ifr.src;">Refresh</button> <a href="{{ route('admin.invoices.show',$invoice->id)}}" target="_blank" class="btn btn-md btn-info">Download</a>
                         </div>
                         <div class="card-body container-fluid">
-                        <iframe name="invoice_preview" src="{{url('/admin/invoices/'. $invoice->id)}}" width="100%" height="800">
+                        <iframe name="invoice_preview" src="{{url('/admin/invoice/mobile/preview/'. $invoice->id)}}" width="100%" height="800">
 
                         </iframe>
                         </div>
