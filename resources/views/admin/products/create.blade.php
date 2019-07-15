@@ -12,7 +12,7 @@
                     <div class="card-body">
 
                             @csrf
-                        <select class="form-control" id="invoice_id" name="invoice_id" <?php if (app('request')->input('invoice_id')) echo ' disabled'; ?>>
+                        <select class="form-control" id="invoice_id" name="invoice_id" <?php if (app('request')->input('invoice_id')) echo ' hidden'; ?>>
                             @forelse(App\Invoice::all() as $invoice)
                                 <option value="{{$invoice->id}}" <?php if (app('request')->input('invoice_id') == $invoice->id) echo ' selected="selected"'; ?>>{{$invoice->invoice_number}}</option>
                             @empty

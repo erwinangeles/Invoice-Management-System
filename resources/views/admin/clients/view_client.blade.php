@@ -49,7 +49,7 @@
                                     <td>{{$invoice->due_date}}</td>
                                     <td>{{$invoice->status}}</td>
                                     <td><a href="{{ route('admin.invoices.show', $invoice->id) }}" target="_blank" class="btn btn-sm btn-warning">View Invoice</a>
-                                        <a href="{{ route('admin.invoices.edit',$invoice->id) }}" target="_blank" class="btn btn-sm btn-info">Download</a>
+                                        <a href="{{ route('admin.invoices.edit',$invoice->id) }}" target="_blank" class="btn btn-sm btn-info">Edit Invoice</a>
                                     </td>
                                 </tr>
 

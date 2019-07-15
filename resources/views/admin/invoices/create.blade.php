@@ -13,7 +13,7 @@
                     <div class="card-body justify-content-center">
                             @csrf
                             Client:
-                        <select class="form-control" id="client_id" name="client_id" <?php if (app('request')->input('client_id')) echo ' disabled'; ?>>
+                        <select class="form-control" id="client_id" name="client_id" <?php if (app('request')->input('client_id')) echo ' hidden'; ?>>
                             @forelse(App\Client::all() as $client)
                                <option value="{{$client->id}}" <?php if (app('request')->input('client_id') == $client->id) echo ' selected="selected"'; ?>>{{$client->first_name}} {{$client->last_name}}</option>
                                @empty
