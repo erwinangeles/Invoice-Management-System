@@ -14,9 +14,9 @@
 ## Manage Payments
 <img src="https://github.com/erwinangeles/Invoice-Management-System/raw/master/public/images/payments.JPG"/>
 
-## Generate Invoices
+## Manage Invoice Items/Generate Invoices
 <img src="https://github.com/erwinangeles/Invoice-Management-System/raw/master/public/images/invoices-manage.png"/>
 
-<img src="https://github.com/erwinangeles/Invoice-Management-System/raw/master/public/images/invoice.JPG"/>
+
 
 
