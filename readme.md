@@ -1,7 +1,7 @@
 <p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
 
 
-##  Invoie Management System
+##  Invoice Management System
 
 <img src="https://github.com/erwinangeles/Invoice-Management-System/raw/master/public/images/screenshot.JPG"/>
 
